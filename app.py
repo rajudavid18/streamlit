@@ -17,30 +17,83 @@ st.set_page_config(
 # Custom CSS for better styling
 st.markdown("""
     <style>
-    .main {
-        padding: 0rem 1rem;
-    }
-    .metric-card {
-        background-color: #f0f2f6;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    }
-    .stMetric {
-        background-color: white;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    h1 {
-        color: #1f77b4;
-        font-weight: 700;
-    }
-    h2 {
-        color: #2c3e50;
-        font-weight: 600;
-    }
-    </style>
+            
+            /* Metric label (title) */
+[data-testid="stMetricLabel"] {
+    color: #1f2937 !important;  /* Dark slate */
+    font-weight: 600;
+}
+
+/* Metric value */
+[data-testid="stMetricValue"] {
+    color: #111827 !important;  /* Almost black */
+    font-weight: 800;
+}
+
+/* Metric delta */
+[data-testid="stMetricDelta"] {
+    color: #2563eb !important;  /* Blue */
+    font-weight: 600;
+}
+/* Main page padding */
+.main {
+    padding: 0.5rem 1.5rem;
+    background-color: #f7f9fc;
+}
+
+/* Metric card container */
+.metric-card {
+    background: linear-gradient(135deg, #ffffff, #f1f5fb);
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    border-left: 6px solid #2563eb; /* Primary Blue */
+}
+
+/* Streamlit metric styling */
+.stMetric {
+    background-color: #ffffff;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+h1 {
+    color: #1e40af; /* Deep Blue */
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+/* Section headers */
+h2 {
+    color: #334155; /* Slate */
+    font-weight: 600;
+    margin-top: 1.5rem;
+}
+
+/* Optional: subtitles / captions */
+h3 {
+    color: #475569;
+    font-weight: 500;
+}
+
+/* Success / Low Risk */
+.success {
+    color: #16a34a;
+}
+
+/* Warning / Medium Risk */
+.warning {
+    color: #f59e0b;
+}
+
+/* Danger / High Risk */
+.danger {
+    color: #dc2626;
+}
+</style>
+
     """, unsafe_allow_html=True)
 
 # Snowflake connection function with better error handling
@@ -110,7 +163,7 @@ st.sidebar.markdown("---")
 # Connection status indicator
 try:
     test_conn = get_connection()
-    st.sidebar.success("✅ Connected to Snowflake")
+    st.sidebar.success("Connected to Snowflake")
 except:
     st.sidebar.error("❌ Not Connected")
 
@@ -209,7 +262,7 @@ if page == "📊 Executive Dashboard":
                 alert_df, 
                 values='ALERT_COUNT', 
                 names='ALERT_TYPE',
-                color_discrete_sequence=px.colors.qualitative.Set3
+                color_discrete_sequence=px.colors.qualitative.Plotly
             )
             fig.update_traces(textposition='inside', textinfo='percent+label')
             fig.update_layout(height=350)
